@@ -4,6 +4,8 @@ const timesheetsRouter = express.Router({mergeParams: true});
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite');
 
+// returns different error messages despite not changing the code
+
 timesheetsRouter.param('timesheetId', (req, res, next, timesheetId) => {
   // get timesheet from database by id
   db.get(`SELECT * FROM Timesheet WHERE id = ${timesheetId};`, (error, timesheet) => {

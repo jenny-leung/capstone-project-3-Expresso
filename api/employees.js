@@ -4,6 +4,8 @@ const employeesRouter = express.Router();
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite');
 
+// returns different error messages despite not changing the code
+
 const timesheetsRouter = require('./timesheets.js');
 
 employeesRouter.param('employeeId', (req, res, next, employeeId) => {

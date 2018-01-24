@@ -7,6 +7,7 @@ const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite'
 
 const PORT = process.env.PORT || 4000;
 
+// returns different error messages despite not changing the code
 
 // Add middware for parsing request bodies here:
 const bodyParser = require('body-parser');

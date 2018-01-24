@@ -6,6 +6,8 @@ const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite'
 
 const menuItemsRouter = require('./menu-items.js');
 
+// returns different error messages despite not changing the code
+
 menusRouter.param('menuId', (req, res, next, menuId) => {
   // get menu from database by id
   db.get(`SELECT * FROM Menu WHERE id = ${menuId};`, (error, menu) => {

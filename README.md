@@ -1,5 +1,6 @@
 # Expresso
 
+## returns different error messages despite not changing the code
 ## Project Overview
 
 In this capstone project, you will build all of the routing and database logic for an internal tool for a coffee shop called Expresso.
@@ -37,7 +38,7 @@ In order for the tests and provided front-end to run properly, you will need to 
 - If `process.env.PORT` is not set, server should run on port `4000` (this is where the provided front-end will make requests to)
 - Accept and set an optional database file argument from `process.env.TEST_DATABASE` in all Express route files that open and modify your database
 - Use the root-level **database.sqlite** as your API's database
-- **Note:** When loading **database.sqlite** in your JavaScript files, sqlite3 will always try to load **database.sqlite** from the root directory path, `./database.sqlite`, regardless of where the current file is located. Therefore your code will always be `new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite')` regardless of the file you are writing in 
+- **Note:** When loading **database.sqlite** in your JavaScript files, sqlite3 will always try to load **database.sqlite** from the root directory path, `./database.sqlite`, regardless of where the current file is located. Therefore your code will always be `new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite')` regardless of the file you are writing in
 
 ### Database Table Properties
 

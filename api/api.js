@@ -1,6 +1,8 @@
 const express = require('express');
 const apiRouter = express.Router();
 
+// returns different error messages despite not changing the code
+
 const employeesRouter = require('./employees.js');
 apiRouter.use('/employees', employeesRouter);
 
