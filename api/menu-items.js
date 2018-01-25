@@ -8,9 +8,11 @@ const db = new sqlite3.Database(process.env.TEST_DATABASE || './database.sqlite'
 
 menuItemsRouter.param('menuItemId', (req, res, next, menuItemId) => {
   // get menuItem from database by id
-  db.get(`SELECT * FROM MenuItem WHERE id = ${menuItemId}`, (error, menuItem) => {
+  db.get('SELECT * FROM MenuItem WHERE id = $menuItemId', {
+    $menuItemId: menuItemId
+  }, (error, menuItem) => {
     if (error) {
-      throw error; //next(error);
+      next(error);
     } else if(menuItem) {
       next();
     } else {
@@ -21,9 +23,11 @@ menuItemsRouter.param('menuItemId', (req, res, next, menuItemId) => {
 
 menuItemsRouter.get('/', (req, res, next) => {
   // get all menuItems related to menu
-  db.all(`SELECT * FROM MenuItem WHERE menu_id = ${req.params.menuId};`, (error, menuItems) => {
+  db.all('SELECT * FROM MenuItem WHERE menu_id = $menuId', {
+    $menuId: req.params.menuId
+  }, (error, menuItems) => {
     if (error) {
-      throw error; //next(error);
+      next(error);
     } else if(menuItems) {
       res.status(200).json({ menuItems: menuItems }); // status 200
     } else {
@@ -50,11 +54,13 @@ menuItemsRouter.post('/', validateMenuItem, (req, res, next) => {
     $menuId: req.params.menuId
   }, function(error) {
     if (error) {
-      throw error; //next(error);
+      next(error);
     }
-    db.get(`SELECT * FROM MenuItem WHERE id = ${this.lastID};`, (error, menuItem) => {
+    db.get('SELECT * FROM MenuItem WHERE id = $newMenuItemId', {
+      $newMenuItemId: this.lastID
+    }, (error, menuItem) => {
       if (error) {
-        throw error; //next(error);
+        next(error);
       }
       res.status(201).json({ menuItem: menuItem });
     });
@@ -63,19 +69,22 @@ menuItemsRouter.post('/', validateMenuItem, (req, res, next) => {
 
 menuItemsRouter.put('/:menuItemId', validateMenuItem, (req, res, next) => {
   const updateMenuItem = req.body.menuItem;
-  db.run(`UPDATE MenuItem SET name = $name, description = $description, inventory = $inventory, price = $price, menu_id = $menuId WHERE id = ${req.params.menuItemId};`, {
+  db.run('UPDATE MenuItem SET name = $name, description = $description, inventory = $inventory, price = $price, menu_id = $menuId WHERE id = $menuItemId', {
     $name: updateMenuItem.name,
     $description: updateMenuItem.description,
     $inventory: updateMenuItem.inventory,
     $price: updateMenuItem.price,
-    $menuId: req.params.menuId
+    $menuId: req.params.menuId,
+    $menuItemId: req.params.menuItemId
   }, error => {
     if (error) {
       next(error);
     }
-    db.get(`SELECT * FROM MenuItem WHERE id = ${req.params.menuItemId};`, (error, menuItem) => {
+    db.get('SELECT * FROM MenuItem WHERE id = $menuItemId', {
+      $menuItemId: req.params.menuItemId
+    }, (error, menuItem) => {
       if (error) {
-        throw error; //next(error);
+        next(error);
       }
       res.status(200).json({ menuItem: menuItem });
     });
@@ -84,7 +93,9 @@ menuItemsRouter.put('/:menuItemId', validateMenuItem, (req, res, next) => {
 
 
 menuItemsRouter.delete('/:menuItemId', (req, res, next) => {
-  db.run(`DELETE FROM MenuItem WHERE id = ${req.params.menuItemId};`, error => {
+  db.run('DELETE FROM MenuItem WHERE id = $menuItemId', {
+    $menuItemId: req.params.menuItemId
+  }, error => {
     if(error) {
       next(error);
     }
