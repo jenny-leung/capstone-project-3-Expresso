@@ -10,7 +10,7 @@ timesheetsRouter.param('timesheetId', (req, res, next, timesheetId) => {
   // get timesheet from database by id
   db.get(`SELECT * FROM Timesheet WHERE id = ${timesheetId};`, (error, timesheet) => {
     if (error) {
-      next(error);
+      throw error; //next(error);
     } else if(timesheet) {
       next();
     } else {

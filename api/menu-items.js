@@ -10,7 +10,7 @@ menuItemsRouter.param('menuItemId', (req, res, next, menuItemId) => {
   // get menuItem from database by id
   db.get(`SELECT * FROM MenuItem WHERE id = ${menuItemId}`, (error, menuItem) => {
     if (error) {
-      next(error);
+      throw error; //next(error);
     } else if(menuItem) {
       next();
     } else {
